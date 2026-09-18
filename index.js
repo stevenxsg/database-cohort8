@@ -24,7 +24,6 @@ app.get("/", (req, res) => {
 
 app.use("/users", userRouter);
 app.use("/products", productRouter);
-
-app.listen(port, () => {
-    console.log(`Server is up and running on port: ${port}`);
+app.listen(5555, "127.0.0.1", () => {
+    console.log("Server is running on http://127.0.0.1:5555");
 });

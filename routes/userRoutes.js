@@ -14,5 +14,6 @@ userRouter.get("/get-one-user/:id" ,getSingleUser)
 
 userRouter.delete("/delete-user/:id", deleteUser);
 userRouter.patch("/update-user/:id" , updateUser)
+userRouter.post("/login" ,loginUser)
 
 module.exports = userRouter;

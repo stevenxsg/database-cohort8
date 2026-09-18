@@ -1,9 +1,43 @@
 const productModel = require("../model/productmodel.js");
+const cloudinary = require("../config/cloudinary.js");
 
 // CREATE PRODUCT
 const createProduct = async (req, res) => {
     try {
-        const product = await productModel.create(req.body);
+
+        // Check if image was uploaded
+        if (!req.file) {
+            return res.status(400).json({
+                message: "Image is required...please upload an image"
+            });
+        }
+
+        // Upload image to Cloudinary
+        const result = await cloudinary.uploader.upload(req.file.path);
+
+        // Get image URL from Cloudinary
+        const imageUrl = result.secure_url;
+
+        // Get product details from request body
+        const {
+            name,
+            description,
+            price,
+            category,
+            stock,
+            quantity
+        } = req.body;
+
+        // Create product
+        const product = await productModel.create({
+            name,
+            description,
+            price,
+            category,
+            stock,
+            quantity,
+            image: imageUrl
+        });
 
         res.status(201).json({
             message: "Product created successfully",
