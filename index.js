@@ -9,12 +9,16 @@ const productRouter = require("./routes/productroutes.js");
 const app = express();
 
 const port = process.env.PORT || 5555;
-
 const atlasString = process.env.MONGO_URI;
 
-mongoose.connect(atlasString)
-    .then(() => console.log("MongoDB Connected"))
-    .catch((err) => console.error("Connection Error:", err));
+// Check if MONGO_URI is set before attempting to connect
+if (!atlasString) {
+    console.error("CRITICAL ERROR: MONGO_URI is not defined in environment variables!");
+} else {
+    mongoose.connect(atlasString)
+        .then(() => console.log("MongoDB Connected Successfully"))
+        .catch((err) => console.error("MongoDB Connection Error:", err.message));
+}
 
 app.use(express.json());
 
